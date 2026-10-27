@@ -1,1 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Hausa Based Spam Detector for identifying spam and non-spam Hausa online content.">
+
+    <title>Hausa Spam Detector</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #0f172a;
+            color: white;
+        }
+
+        /* HEADER */
+
+        .header {
+            text-align: center;
+            padding: 45px 20px 25px;
+        }
+
+        .logo {
+            font-size: 55px;
+            margin-bottom: 10px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 30px;
+        }
+
+        .header p {
+            color: #94a3b8;
+            margin-top: 10px;
+        }
+
+        /* MAIN CARD */
+
+        .container {
+            width: 92%;
+            max-width: 650px;
+            margin: 20px auto 50px;
+        }
+
+        .card {
+            background: #1e293b;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.35);
+        }
+
+        .card h2 {
+            margin-top: 0;
+            text-align: center;
+        }
+
+        .description {
+            text-align: center;
+            color: #94a3b8;
+            line-height: 1.6;
+        }
+
+        /* TEXT AREA */
+
+        textarea {
+            width: 100%;
+            height: 180px;
+            margin-top: 20px;
+            padding: 16px;
+
+            border: 2px solid #334155;
+            border-radius: 12px;
+
+            background: #0f172a;
+            color: white;
+
+            font-size: 16px;
+            outline: none;
+            resize: none;
+        }
+
+        textarea:focus {
+            border-color: #38bdf8;
+        }
+
+        textarea::placeholder {
+            color: #64748b;
+        }
+
+        /* COUNTER */
+
+        #counter {
+            text-align: right;
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        /* BUTTONS */
+
+        button {
+            width: 100%;
+            padding: 15px;
+            margin-top: 12px;
+
+            border: none;
+            border-radius: 10px;
+
+            font-size: 16px;
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        .check-btn {
+            background: #38bdf8;
+            color: #082f49;
+        }
+
+        .check-btn:hover {
+            background: #7dd3fc;
+        }
+
+        .clear-btn {
+            background: #334155;
+            color: white;
+        }
+
+        .clear-btn:hover {
+            background: #475569;
+        }
+
+        /* RESULT */
+
+        #result {
+            margin-top: 25px;
+            padding: 20px;
+
+            border-radius: 12px;
+
+            text-align: center;
+
+            font-size: 22px;
+            font-weight: bold;
+
+            display: none;
+        }
+
+        /* FOOTER */
+
+        .footer {
+            text-align: center;
+            color: #64748b;
+            padding: 20px;
+            font-size: 13px;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 500px) {
+
+            .header h1 {
+                font-size: 25px;
+            }
+
+            .card {
+                padding: 22px;
+            }
+
+            textarea {
+                height: 160px;
+            }
+
+        }
+
+
+        /* ABOUT SYSTEM */
+        .about-card {
+            margin-top: 25px;
+            background: #1e293b;
+            padding: 28px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+        }
+
+        .about-card h2 {
+            margin-top: 0;
+            text-align: center;
+        }
+
+        .about-card p {
+            color: #cbd5e1;
+            line-height: 1.7;
+            text-align: left;
+        }
+
+        .tech-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 18px;
+        }
+
+        .tech-item {
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 10px;
+            padding: 13px;
+            text-align: center;
+            color: #e2e8f0;
+            font-weight: bold;
+        }
+
+        @media (max-width: 500px) {
+            .tech-list {
+                grid-template-columns: 1fr;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <div class="logo">🇳🇬️</div>
+
+        <h1>Hausa Based Spam Detector</h1>
+
+        <p>
+            Hausa Online Content Spam Detection System
+        </p>
+
+    </div>
+
+
+    <!-- MAIN -->
+
+    <div class="container">
+
+        <div class="card">
+
+            <h2>Check Your Message</h2>
+
+            <p class="description">
+
+                Enter a Hausa message below and the system
+
+                will check whether it is spam or not spam.
+                </p>
+                
+                
+                <textarea
+                id="message"
+                maxlength="1000"
+                placeholder="Rubuta saƙon Hausa a nan...">
+                </textarea>
+                
+                
+                <p id="counter">
+                0 / 1000 characters
+                </p>
+                
+                
+                <button
+                class="check-btn"
+                onclick="checkMessage()">
+                
+                🔍 CHECK MESSAGE
+                
+                </button>
+                
+                
+                <button
+                class="clear-btn"
+                onclick="clearMessage()">
+                
+                🗑️ CLEAR
+                
+                </button>
+                
+                
+                <div id="result"></div>
+                
+                </div>
+                
+                </div>
+                
+                <!-- ABOUT THE SYSTEM -->
+                <div class="about-card">
+                <h2>About the System</h2>
+                
+                <p>
+                The Hausa Based Spam Detector is a system designed to identify
+                potentially unwanted Hausa online messages. It provides a simple
+                interface where a user can enter a Hausa message and receive a
+                classification as spam or not spam.
+                </p>
+                
+                <p>
+                The project applies Natural Language Processing (NLP), TF-IDF
+                feature extraction, and a Naïve Bayes classification approach
+                as part of the proposed spam detection methodology.
+                </p>
+                
+                <h2>Technologies Used</h2>
+                
+                <div class="tech-list">
+                <div class="tech-item">🧠 Naïve Bayes</div>
+                <div class="tech-item">📝 NLP</div>
+                <div class="tech-item">📊 TF-IDF</div>
+                <div class="tech-item">🌐 HTML, CSS & JavaScript</div>
+                </div>
+                </div>
+                
+                
+                <!-- FOOTER -->
+                
+                <div class="footer">
+                
+                <p>
+                Hausa Spam Detection System
+                </p>
+                
+                <p>
+                TF-IDF • Naïve Bayes • NLP
+                </p>
+                
+                </div>
+                
+                
+                <script>
+                
+                
+                /* CHARACTER COUNTER */
+                
+                let messageBox =
+                document.getElementById("message");
+                
+                let counter =
+                document.getElementById("counter");
+                
+                
+                messageBox.addEventListener("input", function() {
+                
+                counter.innerHTML =
+                messageBox.value.length +
+                " / 1000 characters";
+                
+                });
+                
+                
+                
+                /* CHECK MESSAGE */
+                
+                function checkMessage() {
+                
+                let message =
+                document
+                .getElementById("message")
+                .value
+                .toLowerCase();
+                
+                
+                let result =
+                document.getElementById("result");
+                
+                
+                if (message.trim() === "") {
+                
+                result.style.display = "block";
+                
+                result.style.background = "#451a03";
+                
+                result.style.color = "#fbbf24";
+                
+                result.innerHTML =
+                "⚠️ Please enter a message.";
+                
+                return;
+                }
+                
+                
+                /* SIMPLE DEMO DETECTION */
+                
+                if (
+                
+                message.includes("kyauta") ||
+                
+                message.includes("lashe") ||
+                
+                message.includes("danna wannan link") ||
+                message.includes("kana danna nan") ||
+                message.includes("aika lambar") ||
+                
+                message.includes("taya murna")
+                
+                ) {
+                
+                result.style.display = "block";
+                
+                result.style.background = "#450a0a";
+                
+                result.style.color = "#f87171";
+               
+                result.innerHTML =
+                "⚠️ SPAM DETECTED (70% Risk)";
+                
+                
+                } else {
+                
+                result.style.display = "block";
+                
+                result.style.background = "#052e16";
+                
+                result.style.color = "#4ade80";
+                
+                result.innerHTML =
+                "✅ NOT SPAM";
+                
+                }
+                
+                }
+                
+                
+                
+                /* CLEAR */
+                
+                function clearMessage() {
+                
+                messageBox.value = "";
+                
+                counter.innerHTML =
+                "0 / 1000 characters";
+                
+                let result =
+                document.getElementById("result");
+                
+                result.innerHTML = "";
+                
+                result.style.display = "none";
+                
+                }
+                
+                
+                </script>
+                
+                
+                </body>
+                
+                </html>
+                <!-- PROJECT INFORMATION -->
+                <div class="about-card">
+                <h2>Project Information</h2>
+                
+                <p><strong>Institution: </strong>AL-ANSAR UNIVERSITY MAIDUGURI</p>
+                <p><strong>Project Title:</strong> Hausa Based Spam Detection On Online Content</p>
+                <p><strong>Developed By:</strong> Ali Musa Usman</p>
+                <p><strong>Department:</strong> Computer Science</p>
+                <p><strong>Project Supervisor:</strong> Malam Aminu Tukur</p>
+                <p><strong>Academic Session:</strong> 2022/2023</p>
+                </div>
+                
+                <!-- COPYRIGHT -->
+                <div class="footer">
+                <p>
+                © 2026 Hausa Based Spam Detector — Developed by Ali Musa Usman
+                </p>
+                
+                <p>
+                TF-IDF • Naïve Bayes • NLP
+                </p>
+                </div>
